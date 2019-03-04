@@ -44,14 +44,14 @@ getData = async (query) => {
 
   render() {
 
-    const { users, userSelected, songs } = this.state
+    const { users, userSelected, songs, albums } = this.state
     const { selectUser } = this
 
     return (
         <div className="photo-album-main-container">
             <Container>
                 <UserList users={users} selectUser={selectUser} />
-                {userSelected &&  <UserAlbumsContainer userSelected={userSelected} songs={songs} />}
+                {userSelected &&  <UserAlbumsContainer userSelected={userSelected} songs={songs} albums={albums}/>}
                
             </Container>
         </div>
