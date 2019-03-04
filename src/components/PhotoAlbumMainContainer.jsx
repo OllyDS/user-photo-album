@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Container } from 'semantic-ui-react'
 
-import UserList from './UserList'
-import UserAlbumsContainer from './UserAlbumsContainer'
+import UserList from './user-components/UserList'
+import UserAlbumsContainer from './album-components/UserAlbumsContainer'
 
 class PhotoAlbumMainContainer extends Component {
 
@@ -14,9 +14,11 @@ class PhotoAlbumMainContainer extends Component {
 
   async componentDidMount() {
     await this.getData('users')
-        .then(data => this.setState({ users: data.map(user => new Object({ id: user.id, name: user.name })) }))
+      .then(data => this.setState({ users: data.map(user => ({ id: user.id, name: user.name })) }))
     await this.getData('albums')
-        .then(data => this.setState({ albums: data.map(album => new Object({ userId: album.userId, title: album.title})) }))
+      .then(data => this.setState({ albums: data.map(album => ({ id: album.id, userId: album.userId, title: album.title })) }))
+    await this.getData('photos')
+      .then(data => this.setState({ songs: data.map(song => ({ albumId: song.albumId, title: song.title, image: song.thumbnailUrl }))}))
   }
 
 getData = async (query) => {
@@ -36,20 +38,20 @@ getData = async (query) => {
   selectUser = (userId) => {
     const user = this.state.users.filter(user => user.id === userId)
     const albums = [...this.state.albums.filter(album => album.userId === userId)]
-    const userInfo = new Object({ user: user[0], albums })
+    const userInfo = ({ user: user[0], albums })
     this.setState({ userSelected: userInfo })
   }
 
   render() {
 
-    const { users, userSelected } = this.state
+    const { users, userSelected, songs } = this.state
     const { selectUser } = this
 
     return (
         <div className="photo-album-main-container">
             <Container>
                 <UserList users={users} selectUser={selectUser} />
-                {userSelected &&  <UserAlbumsContainer userSelected={userSelected} />}
+                {userSelected &&  <UserAlbumsContainer userSelected={userSelected} songs={songs} />}
                
             </Container>
         </div>
@@ -57,14 +59,3 @@ getData = async (query) => {
   }
 }
 export default PhotoAlbumMainContainer;
-
-/* TO DO LIST:
-
- - Remove the dropdown menu. Replace with container (like in battlr bots)
- - When a name is selected, the card appears with name above and albums shown below.
- - When an album is selected, card transforms into card grid with images of each song.
-
-
- To learn, re-do battlr bots lesson in learn.
-
-*/
