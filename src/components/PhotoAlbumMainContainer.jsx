@@ -12,24 +12,18 @@ class PhotoAlbumMainContainer extends Component {
     userSelected: null
   }
 
-  componentDidMount() {
-    this.getUsers()
-      .then(data => this.setState({ users: data.map(user => new Object({ id: user.id, name: user.name })) }))
-    this.getAlbums()
-      .then(data => this.setState({ albums: data.map(album => new Object({ userId: album.userId, title: album.title})) }))
+  async componentDidMount() {
+    await this.getData('users')
+        .then(data => this.setState({ users: data.map(user => new Object({ id: user.id, name: user.name })) }))
+    await this.getData('albums')
+        .then(data => this.setState({ albums: data.map(album => new Object({ userId: album.userId, title: album.title})) }))
   }
 
-  getUsers = async () => {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users')
-      const json = await response.json()
-      return json
-  }
-
-  getAlbums = async () => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/albums')
+getData = async (query) => {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/${query}`)
     const json = await response.json()
     return json
-} 
+}
 
   // WORK ON BELOW:
 
@@ -40,19 +34,23 @@ class PhotoAlbumMainContainer extends Component {
   }
 
   selectUser = (userId) => {
-    this.setState({ userSelected: userId }, () => console.log(userId))
+    const user = this.state.users.filter(user => user.id === userId)
+    const albums = [...this.state.albums.filter(album => album.userId === userId)]
+    const userInfo = new Object({ user: user[0], albums })
+    this.setState({ userSelected: userInfo })
   }
 
   render() {
 
-    const { users } = this.state
+    const { users, userSelected } = this.state
     const { selectUser } = this
 
     return (
         <div className="photo-album-main-container">
             <Container>
                 <UserList users={users} selectUser={selectUser} />
-                {/* <UserAlbumsContainer user={this.state.userSelected} /> */}
+                {userSelected &&  <UserAlbumsContainer userSelected={userSelected} />}
+               
             </Container>
         </div>
     )
