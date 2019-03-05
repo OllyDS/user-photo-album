@@ -21,3 +21,13 @@
   margin-top: 5px;
   padding: 5px;
 }
+
+h4 {
+  padding: 10px
+}
+
+.song-image-grid {
+  max-height: 60vh;
+  overscroll-behavior-y: auto;
+  overflow-x: hidden;
+}

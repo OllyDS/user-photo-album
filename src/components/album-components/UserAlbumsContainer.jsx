@@ -2,7 +2,7 @@ import React from 'react'
 
 import SelectedUserName from './SelectedUserName'
 import SelectedUserAlbums from './SelectedUserAlbums'
-import SelectedAlbumSongs from './SelectedAlbumSongs'
+import SelectedAlbumSongs from './album-songs-component/SelectedAlbumSongs'
 
 class UserAlbumsContainer extends React.Component {
 
