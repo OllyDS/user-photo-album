@@ -2,7 +2,7 @@ import React from 'react'
 
 import SelectedUserName from './SelectedUserName'
 import SelectedUserAlbums from './SelectedUserAlbums'
-import SelectedAlbumSongs from './SelectedAlbumSongs'
+import SelectedAlbumSongs from './album-songs-component/SelectedAlbumSongs'
 
 class UserAlbumsContainer extends React.Component {
 
@@ -12,10 +12,11 @@ class UserAlbumsContainer extends React.Component {
     }
 
     selectAlbum = async (albumId) => {
-        const album = this.state.albums.filter(album => album.id === albumId)
+        const album = this.props.albums.filter(album => album.id === albumId)
         const songs = [...this.props.songs.filter(song => song.albumId === albumId)]
-        const albumInfo = ({ album: album[0], title: songs.title, image: songs.image })
+        const albumInfo = ({ album, songs })
         this.setState({ albumSelected: albumInfo })
+        // console.log('album info', albumInfo)
         await this.closeDropdownMenu()
     }
 
