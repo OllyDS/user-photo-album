@@ -1,3 +1,14 @@
+## Photo Album Application
+
+The application automatically renders a list of artist names in a table on the left.
+
+Selecting an artist will bring up a new <div> containing their name and a dropdown list of their albums.
+
+Select an album to see a list of the different songs available for that album in a scrollable container.
+
+
+### Application Specs
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
