@@ -7,32 +7,23 @@ import SelectedAlbumSongs from './album-songs-component/SelectedAlbumSongs'
 class UserAlbumsContainer extends React.Component {
 
     state = {
-        albumSelected: null,
-        showDropdown: false
+        showDropdown: false,
+        showGrid: false
     }
 
-    selectAlbum = async (albumId) => {
-        const album = this.props.albums.filter(album => album.id === albumId)
-        const songs = [...this.props.songs.filter(song => song.albumId === albumId)]
-        const albumInfo = ({ album, songs })
-        this.setState({ albumSelected: albumInfo })
-        // console.log('album info', albumInfo)
-        await this.closeDropdownMenu()
+    toggleDropdownMenu = () => {
+        this.setState({ showDropdown: !this.state.showDropdown })
     }
 
-    openDropdownMenu = () => {
-        this.setState({ showDropdown: true })
-    }
-
-    closeDropdownMenu = () => {
-        this.setState({ showDropdown: false })
+    toggleSongsGrid = () => {
+        this.setState({ showGrid: !this.state.showGrid })
     }
 
     render() {
 
-        const { selectAlbum, openDropdownMenu } = this
-        const { albumSelected, showDropdown } = this.state
-        const { userSelected } = this.props
+        const { toggleDropdownMenu, toggleSongsGrid } = this
+        const { showDropdown, showGrid } = this.state
+        const { albumSelected, selectAlbum, userSelected } = this.props
 
         return(
             <div className="user-albums-container">
@@ -41,9 +32,13 @@ class UserAlbumsContainer extends React.Component {
                     userSelected={userSelected}
                     selectAlbum={selectAlbum}
                     showDropdown={showDropdown}
-                    openDropdownMenu={openDropdownMenu}
+                    toggleDropdownMenu={toggleDropdownMenu}
                     /* DONE */ />
-                <SelectedAlbumSongs albumSelected={albumSelected} />
+                <SelectedAlbumSongs
+                    albumSelected={albumSelected}
+                    toggleSongsGrid={toggleSongsGrid}
+                    showGrid={showGrid}
+                />
             </div>
         )
     }
@@ -52,8 +47,6 @@ export default UserAlbumsContainer
 
 /* TO DO
 
-    - Create two more components, 1 - dropdown album list, 2 - albums song grid
-    - For each album, map through, passing image component through individually (like userlist & user)
-    - Tidy up with folders.
+    - Use the toggleSongsGrid and showGrid to remove and refresh the songs Grid when a user clicks on it.
 
 */

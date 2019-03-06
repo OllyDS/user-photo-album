@@ -9,7 +9,8 @@ class PhotoAlbumMainContainer extends Component {
   state = {
     users: [],
     albums: [],
-    userSelected: null
+    userSelected: null,
+    albumSelected: null
   }
 
   async componentDidMount() {
@@ -27,32 +28,50 @@ getData = async (query) => {
     return json
 }
 
-  // WORK ON BELOW:
-
   albumList = (userId) => {
     const array = this.state.albums.filter(album => album.userId === userId)
     const userAlbums = array.map(album => album.title)
     return userAlbums
   }
 
+  checkIfAnotherUserIsSelectedAlready = () => {
+    if (this.state.albumSelected != null) {
+      this.setState({ albumSelected: null })
+    }
+  }
+
   selectUser = (userId) => {
+    this.checkIfAnotherUserIsSelectedAlready()
     const user = this.state.users.filter(user => user.id === userId)
     const albums = [...this.state.albums.filter(album => album.userId === userId)]
     const userInfo = ({ user: user[0], albums })
     this.setState({ userSelected: userInfo })
   }
 
+  selectAlbum = async (albumId) => {
+    const album = this.state.albums.filter(album => album.id === albumId)
+    const songs = [...this.state.songs.filter(song => song.albumId === albumId)]
+    const albumInfo = ({ album, songs })
+    this.setState({ albumSelected: albumInfo })
+}
+
   render() {
 
-    const { users, userSelected, songs, albums } = this.state
-    const { selectUser } = this
+    const { users, userSelected, albumSelected } = this.state
+    const { selectUser, selectAlbum } = this
 
     return (
         <div className="photo-album-main-container">
             <Container>
                 <UserList users={users} selectUser={selectUser} />
-                {userSelected &&  <UserAlbumsContainer userSelected={userSelected} songs={songs} albums={albums}/>}
-               
+                {
+                  userSelected &&  
+                    <UserAlbumsContainer 
+                      userSelected={userSelected}
+                      selectAlbum={selectAlbum}
+                      albumSelected={albumSelected}
+                    />
+                }
             </Container>
         </div>
     )
