@@ -2,11 +2,11 @@ import React from 'react'
 
 import Album from './album-songs-component/Album'
 
-const SelectedUserAlbums = ({ userSelected, selectAlbum, showDropdown, openDropdownMenu }) => {
+const SelectedUserAlbums = ({ userSelected, selectAlbum, showDropdown, toggleDropdownMenu }) => {
 
     return(
         <div className="users-albums">
-            <button onClick={() => openDropdownMenu()} className="dropdown-btn" >Select an Album...</button>
+            <button onClick={() => toggleDropdownMenu()} className="dropdown-btn" >Select an Album...</button>
             <div className="dropdown-content">
                 {showDropdown&&
                     userSelected.albums.map(album =>
@@ -15,6 +15,7 @@ const SelectedUserAlbums = ({ userSelected, selectAlbum, showDropdown, openDropd
                             id={album.id}
                             title={album.title}
                             selectAlbum={selectAlbum}
+                            toggleDropdownMenu={toggleDropdownMenu}
                         />
                     )
                 }

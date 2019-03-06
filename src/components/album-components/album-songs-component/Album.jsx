@@ -1,9 +1,12 @@
 import React from 'react'
 
-const Album = ({ id, title, selectAlbum }) => {
+const Album = ({ id, title, selectAlbum, toggleDropdownMenu }) => {
     return(
         <div className="album">
-            <a onClick={() => selectAlbum(id)}>{title}</a>
+            <a onClick={ () => {
+                selectAlbum(id)
+                toggleDropdownMenu()
+            }}>{title}</a>
         </div>
     )
 }

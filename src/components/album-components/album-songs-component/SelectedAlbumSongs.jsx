@@ -2,7 +2,7 @@ import React from 'react'
 
 import Song from './Song'
 
-const SelectedAlbumSongs = ({ albumSelected }) => {
+const SelectedAlbumSongs = ({ albumSelected, showGrid }) => {
     return(
         <div>
             <div className="users-name">
