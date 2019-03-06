@@ -34,7 +34,14 @@ getData = async (query) => {
     return userAlbums
   }
 
+  checkIfAnotherUserIsSelectedAlready = () => {
+    if (this.state.albumSelected != null) {
+      this.setState({ albumSelected: null })
+    }
+  }
+
   selectUser = (userId) => {
+    this.checkIfAnotherUserIsSelectedAlready()
     const user = this.state.users.filter(user => user.id === userId)
     const albums = [...this.state.albums.filter(album => album.userId === userId)]
     const userInfo = ({ user: user[0], albums })
@@ -46,7 +53,6 @@ getData = async (query) => {
     const songs = [...this.state.songs.filter(song => song.albumId === albumId)]
     const albumInfo = ({ album, songs })
     this.setState({ albumSelected: albumInfo })
-    // await this.closeDropdownMenu()
 }
 
   render() {
